@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+    .hide {
+        display: none;
+    }
+    </style>
+    <script>
+    window.onload = function() {
+        addExpander('expand-container', 'expander', 'content');
+    }
+
+    /**
+     * Adds an expander that expands all content in the container.
+     *
+     * @param {string} containerClass
+     * @param {string} expanderClass
+     * @param {string} contentClass
+     */
+    function addExpander(containerClass, expanderClass, contentClass) {
+        var xList = document.getElementsByClassName(expanderClass);
+        for (var i = 0; i < xList.length; i++) {
+            xList[i].onmousedown =
+                createExpandAllInContainer(containerClass, xList[i], contentClass);
+        }
+    }
+
+    /**
+     * Find the containers then expand all content in the containers.
+     *
+     * @param {string} containerClass
+     * @param {documentElement} expander
+     * @param {string} contentClass
+     */
+    function createExpandAllInContainer(containerClass, expander, contentClass) {
+        return function() {
+            expandAllInContainer(containerClass, expander, contentClass);
+        };
+    }
+
+    /**
+     * Find the containers then expand all content in the containers.
+     *
+     * @param {string} containerClass
+     * @param {documentElement} expander
+     * @param {string} contentClass
+     */
+    function expandAllInContainer(containerClass, expander, contentClass) {
+        var container = findContainer(containerClass, expander);
+        expandAll(container, contentClass);
+    }
+
+    /**
+     * Expand all content in the container.
+     *
+     * @param {documentElement} container
+     * @param {string} contentClass
+     */
+    function expandAll(container, contentClass) {
+        if (container == null) {
+            return;
+        }
+        var children = container.children;
+        if(children != null) {
+            for (var i = 0; i < children.length; i++) {
+                if (children[i] != null) {
+                    if(children[i].classList.contains(contentClass)) {
+                        children[i].classList.toggle('hide');
+                    }
+                }
+                else {
+                    expandAll(children[i], contentClass);
+                }
+            }
+        }
+    }
+
+    /**
+     * Expand all content in the container.
+     *
+     * @param {string} containerClass
+     * @param {documentElement} expander
+     * @return {documentElement}
+     */
+    function findContainer(containerClass, expander) {
+        var e = expander.parentElement;
+        if (e != null) {
+            if (e.classList.contains(containerClass)) {
+                return e;
+            }
+            else {
+                return findContainer(containerClass, e);
+            }
+        }
+        else {
+            return null;
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <div class="main">
+        <p>
+            <ul>
+                <div class="expand-container">
+                    <li class="expander">
+                        <a>Click</a>
+                    </li>
+                    <p class="content hide">
+                        Test
+                    </p>
+                </div>
+                <li>
+                    Hello
+                </li>
+                <li>
+                    Hello
+                </li>
+                <li>
+                    Hello
+                </li>
+                <li>
+                    Hello
+                </li>
+                <li>
+                    Hello
+                </li>
+                <li>
+                    Hello
+                </li>
+                <li>
+                    Hello
+                </li>
+                <li>
+                    Hello
+                </li>
+            </ul>
+        </p>
+    </div>
+
+    <div class="footer">
+        Demo created by Jarett Lee
+    </div>
+</body>
+
+</html>
